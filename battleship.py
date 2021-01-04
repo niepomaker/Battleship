@@ -21,10 +21,11 @@ def print_score(matrix):
     list_of_letters = ['A ', 'B ', 'C ', 'D ', 'E ']
     counter1 = 0
     print(' '.join(list_of_numbers))
+    
     for element in matrix:
         print(list_of_letters[counter1] + ' '.join(element))
-    #     counter1 += 1
-    # counter1 = 0
+        counter1 += 1
+    counter1 = 0
 
 
 def check_coordinate(coordinate):
