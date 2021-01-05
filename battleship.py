@@ -108,20 +108,34 @@ def mark(coordinates,final_matrix):
     return final_matrix
 
 
-def get_move(final_matrix):
+def check_if_coordinates_was_used(coordinate, used_coordinate_list):
+    if coordinate in used_coordinate_list:
+        return True
+    else:
+        return False
+
+
+def get_move(final_matrix, used_coordinate_list):
     loop = True
     while loop:
         user_choice = input("Please provide a coordinates: ")
         clear()
-        if check_coordinate(user_choice):
-            coordinates = position_in_matrix(user_choice)
-            print(coordinates)
-            print_score(mark(coordinates,final_matrix))
-            loop = False
+        if check_if_coordinates_was_used(user_choice, used_coordinate_list):
+            print("Reapeted coordinates.")
+            loop = True
+        elif check_if_coordinates_was_used(user_choice, used_coordinate_list) == False:
+            if check_coordinate(user_choice):
+                used_coordinate_list.append(user_choice)
+                if check_coordinate(user_choice):
+                    coordinates = position_in_matrix(user_choice)
+                    print(coordinates)
+                    print_score(mark(coordinates,final_matrix))
+                    loop = False
+                elif check_coordinate(user_choice) == False:
+                    loop = True
+                    print('Wrong coordinates!')
+        print(used_coordinate_list)
 
-        elif check_coordinate(user_choice) == False:
-            print('Wrong coordinates!')
-    
     return final_matrix
 
 
@@ -137,6 +151,7 @@ def second_game(loop):
 
 def play():
     loop = True
+    used_coordinate_list = []
     clear()
     final_matrix = init_board()
     print_score(final_matrix) 
@@ -144,12 +159,12 @@ def play():
         print('Wybierz długość statku: (1 or 2): ')
         user_choice = input('Wybrana długość to: ')
         if user_choice == '1':
-            get_move(final_matrix)
+            get_move(final_matrix, used_coordinate_list)
             second_game(loop)
 
         elif user_choice == '2': 
-            get_move(final_matrix)
-            get_move(final_matrix)
+            get_move(final_matrix, used_coordinate_list)
+            get_move(final_matrix, used_coordinate_list)
             second_game(loop)
 
         elif user_choice == 'exit':
@@ -158,5 +173,6 @@ def play():
     
 
 if __name__ == '__main__':
+    clear()
     play()
     
